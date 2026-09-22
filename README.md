@@ -22,7 +22,7 @@
 ## Contents
 
 ```
-.Rockbox/
+.rockbox/
 ├── fonts/    # ProFontIIx (23/26/33/35/44/50) + 11-monogram
 ├── icons/    # modone iconset (main + viewers)
 ├── themes/   # FleshAndBones.cfg (colours, fonts, list padding)
@@ -31,7 +31,7 @@
 
 ## Installation
 
-1. Copy the **contents** of `.Rockbox/` (`fonts`, `icons`, `themes`, `wps`) into the `.rockbox` folder on your AP80 Pro Max, merging with any existing files.
+1. Copy the **contents** of `.rockbox/` (`fonts`, `icons`, `themes`, `wps`) into the `.rockbox` folder on your AP80 Pro Max, merging with any existing files.
 2. On the device go to **Settings → Theme Settings → Theme** and select **FleshAndBones**.
 3. Restart or re-apply the theme if the skin does not refresh immediately.
 
