@@ -1,0 +1,189 @@
+# FleshAndBones by nicnic <me@nicnic.cc>
+# Based on OneBit_OLED by Jihoon Kim
+# Based on OneBit_VFD by chronicallyoffline <ben@chronicallyoffline.xyz>
+#
+# CC BY-SA 3.0
+# Credits to Jihoon Kim, Chuck Lardo and D0-0K for inspiration and code/assets reused under CC-BY-SA and GPL V3 respectively.
+#
+# 2026-04-09 v1.0
+#
+# ---------------------------------------------------------------------------
+# Hidizs AP80 Pro Max port (360x640 portrait)
+#   Layout authored natively for 360x640; every bitmap and font is scaled 3/2
+#   from the original 320x240 assets (the same factor the other AP80 Pro Max
+#   ports use), so the skin keeps the original's pixel grid and proportions.
+#   Screen margins are 30 px (the original's 20 px x 1.5).
+# ---------------------------------------------------------------------------
+
+# Disable Status Bar
+%wd
+
+# Clear Backdrop
+%X(d)
+
+# Full-screen background: forces the theme's black background even if the theme .cfg
+# has not been applied (Rockbox's default colours are blue/white).
+%Vi(themeBg,0,0,360,640,-)%Vf(000000)%Vb(000000)
+
+# Preload Fonts  (1.5x of 07-monogram / 15- / 22- / 29-ProFontIIx)
+%Fl(2,11-monogram.fnt)
+%Fl(3,23-ProFontIIx.fnt)
+%Fl(4,33-ProFontIIx.fnt)
+%Fl(5,44-ProFontIIx.fnt)
+%Fl(8,26-ProFontIIx.fnt)
+
+# Preload Images
+%xl(battery,battery.bmp,0,0,12)
+%xl(lockIco,lock.bmp)
+%xl(blackcover,blackcover.bmp)
+%xl(playmodes,playmodes.bmp,0,0,9)
+%xl(pbbd,progressbar_backdrop.bmp,0,0)
+%xl(vbbd,volumebar_backdrop.bmp,0,0)
+%xl(peak,peak.bmp,0,0)
+%xl(pbd,peak_backdrop.bmp,0,0)
+%xl(R,repeat_status.bmp,3)
+%xl(S,shuffle_status.bmp)
+%xl(X,seeking_icon.bmp)
+
+# Router
+%?mh<%VI(themeBg)%Vd(themeBg)%Vd(lockCover)%Vd(lock)|%Vd(wpsFileType)%Vd(wpsClock)%Vd(wpsPct)%Vd(wpsBatt)%?if(%St(volume display), =, graphic)<%VI(themeBg)%Vd(themeBg)%Vd(meta)%Vd(aaBox)|%Vd(metaNoAlbumArt)>%Vd(playbackMode)%Vd(repeat)%?if(%mp,=,2)<%Vd(peakL)%Vd(peakR)|>%?mv(3)<%Vd(volume)|%Vd(prog)>>
+
+#######################
+##### Play Screen #####
+#######################
+
+# Storage Access (disk activity) - top right of the text block, as in the original
+%Vl(diskAct,312,126,18,18,-)%Vf(-)
+%xd(X,%lh)
+
+####################
+##### METADATA #####
+####################
+
+# Track Title
+%Vl(metaNoAlbumArt,30,40,300,34,4)%Vf(ffffff)
+%aL%s%?ia<%?it<%it|%fn>>
+%Vl(meta,30,40,300,34,4)%Vf(ffffff)
+%aL%s%?ia<%?it<%it|%fn>>
+
+# Track Artist
+%Vl(metaNoAlbumArt,30,78,300,45,5)
+%?ia<%Vf(9C9E9C)|%Vf(ffffff)>
+%aL%s%?ia<%ia|%?it<%it|%fn>>
+%Vl(meta,30,78,300,45,5)
+%?ia<%Vf(9C9E9C)|%Vf(ffffff)>
+%aL%s%?ia<%ia|%?it<%it|%fn>>
+
+# Album Title and ID3 Year
+%Vl(metaNoAlbumArt,30,126,300,23,3)%Vf(9C9E9C)
+%aL%s%?id<%id|Unknown Album> %(%?iy<%ss(0,4, %iy)|?>%)
+%Vl(meta,30,126,270,23,3)%Vf(9C9E9C)
+%aL%s%?id<%id|Unknown Album> %(%?iy<%ss(0,4, %iy)|?>%)
+
+#########################
+##### PLAYBACK MODE #####
+#########################
+
+# Header - file type in a solid tag (left), clock (centre), battery % + icon (right)
+%Vl(wpsFileType,20,12,48,22,3)%Vb(efcc02)%Vf(000000)
+%ac%s%fc
+
+# Black cover - hides the tag rectangle on the lock screen (the tag's viewport
+# background is repainted there even though the viewport is not drawn)
+%Vl(lockCover,20,12,52,26,-)%Vf(-)
+%xd(blackcover)
+
+%Vl(wpsClock,155,11,50,23,2)%Vf(9C9E9C)
+%al%?cf<%cH|%cl>:%cM%?cf<| %cp>
+
+%Vl(wpsPct,268,11,42,23,2)%Vf(9C9E9C)
+%ar%bl%%
+
+%Vl(wpsBatt,314,16,35,15,-)%Vf(-)
+%?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,3)|%xd(battery,4)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>
+
+# Playback Mode Icons
+%Vl(playbackMode,30,168,20,20,-)%Vf(-)
+%xd(playmodes,%mp)
+
+%Vl(playbackMode,55,168,20,20,3)%Vf(9C9E9C)
+%t(5)%?ps<%xd(S)|%?mm<|%xd(R,%mm,-1)>>;%t(5)%?mm<%?ps<%xd(S)>|%xd(R,%mm,-1)>
+
+######################
+##### PEAK METER #####
+######################
+
+# Left
+%Vl(peakL,30,516,300,15,-)%Vf(-)
+%pL(0,0,300,15,image,peak,backdrop,pbd)
+
+# Right
+%Vl(peakR,30,536,300,15,-)%Vf(-)
+%pR(0,0,300,15,image,peak,backdrop,pbd)
+
+#####################
+##### ALBUM ART #####
+#####################
+
+%Vl(aaBox,30,203,300,300,-)
+%Cl(0,0,300,300,r,c)
+%Cd
+
+#######################
+##### PROGRESS BAR ####
+#######################
+
+# Progress Bar
+%Vl(prog,30,575,300,26,-)%Vf(5d5d5d)
+%pb(0,0,300,26,progressbar.bmp,backdrop,pbbd)
+
+# Time Elapsed | Track N/M | Total Track Time
+%Vl(prog,30,603,-30,23,3)%Vf(9C9E9C)
+%al%pc%ac%pp/%pe%ar%pt
+
+######################
+##### VOLUME BAR #####
+######################
+
+# Volume Bar
+%Vl(volume,30,575,300,26,-)%Vf(-)
+%pv(0,0,300,26,volumebar.bmp,backdrop,vbbd)
+
+# Volume Text | Codec | Volume dB
+%Vl(volume,30,603,-30,23,3)%Vf(-)
+%alVOL-%ar%?if(%pv, >, 0)<+|>%pvdB
+
+#######################
+##### Lock Screen #####
+#######################
+
+# Play/Pause Icons
+%Vl(lock,30,40,20,20,-)%Vf(-)
+%xd(playmodes,%mp)
+
+# Battery viewport selector (LOCK ONLY)
+%?mh<%?bc<%Vd(battCharging)|%?if(%bl,>=,15)<%Vd(batt)|%Vd(lowBatt)>>|>
+
+# Battery (graphical) - will only actually draw if one of the above %Vd() runs (LOCK ONLY)
+%Vl(batt,295,42,35,15,-)%Vf(-)
+%?mh<%?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,4)|%xd(battery,3)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>|>
+
+%Vl(lowBatt,295,42,35,15,-)
+%Vf(-)
+%?mh<%t(1)%?if(%bl,>=,10)<%xd(battery,2)|%xd(battery,1)>;%t(1)%xd(battery,12)|>
+
+%Vl(battCharging,295,42,35,15,-)
+%Vf(-)
+%?mh<%t(0.1)%?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,4)|%xd(battery,3)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>;%t(0.1)%?bl<%xd(battery,3)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>;%t(0.1)%?bl<%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>;%t(0.1)%xd(battery,11)|>
+
+# Clock
+%Vl(lock,30,150,300,60,5)%Vf(ffffff)
+%?cf<%cH|%cl>:%cM%?cf<| %cp>
+
+# Song/Artist
+%Vl(lock,30,240,300,23,3)%Vf(ffffff)
+%s%ia - %it
+
+# Time Remaining
+%Vl(lock,30,275,-30,23,3)%Vf(ffffff)
+%ar-%pr

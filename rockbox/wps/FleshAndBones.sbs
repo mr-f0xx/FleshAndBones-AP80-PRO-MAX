@@ -1,0 +1,112 @@
+# FleshAndBones by nicnic <me@nicnic.cc>
+# Based on OneBit_OLED by Jihoon Kim
+# Based on OneBit_VFD by chronicallyoffline <ben@chronicallyoffline.xyz>
+#
+# CC BY-SA 3.0
+# Credits to Jihoon Kim, Chuck Lardo and D0-0K for inspiration and code/assets reused under CC-BY-SA and GPL V3 respectively.
+#
+# 2026-04-09 v1.0
+#
+# ---------------------------------------------------------------------------
+# Hidizs AP80 Pro Max port (360x640 portrait)
+#   Everything the original SBS themed is themed here: the menu / file browser
+#   / database / settings list viewport, the top status line, the now playing
+#   footer, the USB screen and the while-holding (lock) screen.
+#   Geometry is authored for 360x640; bitmaps and fonts are scaled 3/2.
+# ---------------------------------------------------------------------------
+
+# Disable Status Bar
+%wd
+
+# Clear Backdrop
+%X(d)
+
+# Preload Fonts
+%Fl(2,11-monogram.fnt)
+%Fl(3,23-ProFontIIx.fnt)
+%Fl(4,33-ProFontIIx.fnt)
+%Fl(5,44-ProFontIIx.fnt)
+%Fl(6,35-ProFontIIx.fnt)
+%Fl(7,50-ProFontIIx.fnt)
+%Fl(8,26-ProFontIIx.fnt)
+
+# Preload Images
+%xl(battery,battery.bmp,0,0,12)
+%xl(playmodes,playmodes.bmp,0,0,9)
+%xl(usbBmp,usb.bmp,0,0)
+%xl(lockIco,lock.bmp)
+%xl(hdIco,seeking_icon.bmp)
+
+# Clear Screen (info viewport stub for USB)
+%Vi(clearScreen,0,0,1,1,-)
+
+# Main UI viewport (single) - used by every list screen
+%Vi(menu,14,60,332,500,8)%Vf(7f7f7f)%Vb(000000)
+
+# Router
+%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbArt)%Vd(usbText1)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
+
+###################
+##### GENERAL #####
+###################
+
+# Menu Title
+%Vl(menuTitle,20,6,242,40,6)%Vf(7f7f7f)
+%al%s%Lt
+
+# Clock - on the now-playing screen, and on the left of the file browser
+# (the browser has no title, so the left side is free; the main menu keeps its title)
+%Vl(browserClock,20,11,50,23,2)%Vf(7f7f7f)
+%al%?cf<%cH|%cl>:%cM%?cf<| %cp>
+
+# Storage Access (disk activity)
+%Vl(battPct,268,11,42,23,2)%Vf(7f7f7f)
+%ar%bl%%
+
+%Vl(hdAct,228,15,18,18,-)%Vf(-)
+%xd(hdIco,%lh)
+
+# Hold icon
+%Vl(holdIco,252,15,14,18,-)%Vf(-)
+%xd(lockIco,%mh)
+
+# Now Playing footer - play mode icon, track (line 1), artist (line 2)
+%Vl(npIcon,20,578,20,20,-)%Vf(-)
+%xd(playmodes,%mp)
+
+%Vl(npTitle,53,566,287,30,8)%Vf(ffffff)
+%al%s%?it<%it|%fn>
+
+%Vl(npArtist,53,598,287,24,3)%Vf(9C9E9C)
+%al%s%?ia<%ia>
+
+###################
+##### BATTERY #####
+###################
+
+# Battery viewport selector (flash when low, animates when charging)
+%Vl(battRouter,0,0,1,1,-)
+%?bc<%Vd(battCharging)|%?if(%bl,>=,15)<%Vd(battOk)|%Vd(battLow)>>
+
+# Battery (graphical)
+%Vl(battOk,314,16,35,15,-)%Vf(-)
+%?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,3)|%xd(battery,4)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>
+
+%Vl(battLow,314,16,35,15,-)%Vf(-)
+%t(1)%?if(%bl,>=,10)<%xd(battery,2)|%xd(battery,1)>;%t(1)%xd(battery,12)
+
+%Vl(battCharging,314,16,35,15,-)%Vf(-)
+%t(0.1)%?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,3)|%xd(battery,4)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>;%t(0.1)%?bl<%xd(battery,4)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>;%t(0.1)%?bl<%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>;%t(1)%xd(battery,11)
+
+######################
+##### USB SCREEN #####
+######################
+
+%Vl(usbArt,30,120,300,150,-)
+%xd(usbBmp)
+
+%Vl(usbText1,30,300,300,40,4)%Vf(ffffff)
+%acUSB CONNECTED
+
+%Vl(usbText2,30,348,300,23,2)%Vf(ffffff)
+%acEject Before Disconnecting
