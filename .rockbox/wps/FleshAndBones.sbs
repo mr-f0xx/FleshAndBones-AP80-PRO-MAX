@@ -44,15 +44,24 @@
 %Vi(menu,14,60,332,500,8)%Vf(7f7f7f)%Vb(000000)
 
 # Router
-%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbArt)%Vd(usbText1)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
+%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbArt)%Vd(usbText1)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(hdrLine)%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
 
 ###################
 ##### GENERAL #####
 ###################
 
-# Menu Title
+# Menu Title (static "Rockbox" - no scrolling folder/option names)
 %Vl(menuTitle,20,6,242,40,6)%Vf(7f7f7f)
-%al%s%Lt
+%alRockbox
+
+# Yellow header rule - separates the status bar from the list rows
+%Vl(hdrLine,20,52,320,3,-)%Vf(efcc02)%Vb(efcc02)
+
+# Hidden %Lt - registers with Rockbox that this skin displays the list title,
+# so the list engine does NOT prepend its own duplicate "Rockbox" title row.
+# This viewport is never %Vd()'d, so the token is parsed (flag set) but never drawn.
+%Vl(titleFlag,0,0,1,1,-)%Vf(000000)%Vb(000000)
+%Lt
 
 # Clock - on the now-playing screen, and on the left of the file browser
 # (the browser has no title, so the left side is free; the main menu keeps its title)
