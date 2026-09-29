@@ -23,11 +23,12 @@
 # Clear Backdrop
 %X(d)
 
-# Preload Fonts  (8 = main font: the menu / browser / settings lists;
+# Preload Fonts  (4 = the USB screen clock; 8 = main font: the menu / browser /
+# settings lists;
 # 9 = the now playing footer's title line)
 %Fl(2,11-monogram.fnt)
 %Fl(3,23-ProFontIIx.fnt)
-%Fl(4,33-ProFontIIx.fnt)
+%Fl(4,47-SquareDotCombined-ASCII.fnt)
 %Fl(5,44-ProFontIIx.fnt)
 %Fl(6,35-SquareDotCombined.fnt)
 %Fl(7,50-ProFontIIx.fnt)
@@ -148,7 +149,7 @@
 
 # Shown while the player is connected to a computer (and charging from it).
 #   Header    today's date (left), battery % + icon (right), orange rule
-#   Clock     the time, in the menu header's dot-matrix font (SquareDotCombined)
+#   Clock     the time, in the menu header's dot-matrix font, a size up
 #   Art       the USB plug
 #   Battery   the charge level, big, in orange, over a gauge in the peak
 #             meter's dot grid: orange = charged, grey = empty
@@ -163,14 +164,18 @@
 %Vl(usbDate,20,11,240,23,2)%Vf(7f7f7f)
 %al%ca %cd %cb %cY
 
-# Clock (same 12/24 h format as the other clocks) in font 6, the dot-matrix
-# SquareDotCombined of the menu header's "Rockbox" title. Its digits are
-# 14 px tall (rows 9-22 of the 30 px line): ink y 105-118. The clock, the
-# plug (ink y 169-298) and the battery row (ink from y 350) sit ~50 px apart.
-%Vl(usbClock,30,96,300,30,6)%Vf(ffffff)
+# Clock (same 12/24 h format as the other clocks) in font 4: the dot-matrix
+# SquareDotCombined of the menu header's "Rockbox" title, one size up - the
+# original 47-SquareDotCombined (2x2 dots on a 4 px grid) that the header's
+# 35 px version was scaled from, cut down to printable ASCII (42 KB instead
+# of 10.9 MB; its own file name, so it never replaces the full font of the
+# CrazyBit Tube theme). Digits 18 px tall (rows 12-29 of the 40 px line):
+# ink y 104-121. The clock, the plug (ink y 171-300) and the battery row
+# (ink from y 350) sit 49 px apart.
+%Vl(usbClock,30,92,300,40,4)%Vf(ffffff)
 %ac%?cf<%cH|%cl>:%cM%?cf<| %cp>
 
-%Vl(usbArt,30,156,300,150,-)
+%Vl(usbArt,30,158,300,150,-)
 %xd(usbBmp)
 
 # Battery level: label and number share a baseline (y 382)

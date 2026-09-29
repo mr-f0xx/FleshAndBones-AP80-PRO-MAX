@@ -14,12 +14,12 @@
 
 - **Full WPS layout** — track title / artist / album, 300×300 album-art box, dithered progress bar, peak meter, and graphic volume bar
 - **Vacuum-tube orange accents** (`#FF4D00`) on pure black — battery icon, playback buttons, peak meter, codec tag, the selected item in every list and the menu's header and footer rules.
-- **Dot-matrix track info** — the title in *SquareDotCombined* (also covers Japanese, Chinese and Korean), the artist and the album + year in *LanaPixel* (only the year for a single, when the album name is the same as the title), and a solid orange codec tag (`MP3`, `FLAC`, …) in *Digital-7 Mono* at the end of the artist line
+- **Dot-matrix track info** — the title in *SquareDotCombined* (also covers Japanese, Chinese and Korean), the artist and the album + year in *LanaPixel* (just the year, e.g. “(2020)”, for a single — when the album name is the same as the title), and a solid orange codec tag (`MP3`, `FLAC`, …) in *Digital-7 Mono* at the end of the artist line
 - **Tactile progress bar** — tap it to jump, or drag along it and lift to seek, with a finger-sized touch zone around the bar
 - **Touch transport** — small shuffle · previous · play/pause · next · repeat buttons (16–18 px glyphs, 48 px apart) centred under the track info; shuffle and repeat are grey when off and turn orange when on
 - **Custom header** — clock on the left, battery percentage + 11-frame battery icon on the right, all drawn by the skin (status bar disabled)
 - **Lock screen** — big clock, now-playing info, time remaining, plus charging / low-battery states
-- **USB screen** — while connected to a computer: the time in the menu header's dot-matrix font (SquareDotCombined), the date, the battery level (big percentage + a dot-matrix gauge in the peak meter's style), charging status (Charging / Charged / Not charging) and battery voltage, with the eject reminder in the footer
+- **USB screen** — while connected to a computer: the time in the menu header's dot-matrix font (SquareDotCombined, one size up), the date, the battery level (big percentage + a dot-matrix gauge in the peak meter's style), charging status (Charging / Charged / Not charging) and battery voltage, with the eject reminder in the footer
 - **Playback indicators** — the shuffle / repeat buttons show the current mode (repeat one and repeat shuffle have their own icons), and the play button turns into ◀◀ / ▶▶ while seeking
 - **1-bit monochrome iconset** for the file browser and viewers (`modone.bmp` / `modone_viewer.bmp`)
 - **LanaPixel main font** for the menus, file browser, settings and the now-playing footer (covers Japanese, Chinese and Korean), with the original ProFontIIx + Monogram fonts for the clock, battery percentage and labels, plus the three track-info fonts on the now-playing screen. The "Rockbox" title in the menu header uses the track title's dot-matrix font (SquareDotCombined)
@@ -30,7 +30,7 @@
 
 ```
 .rockbox/
-├── fonts/    # LanaPixel (14/21), ProFontIIx (23/26/33/35/44/50) + 11-monogram, 35-SquareDotCombined, 20-digital7mono
+├── fonts/    # LanaPixel (14/21), ProFontIIx (23/26/33/35/44/50) + 11-monogram, 35-SquareDotCombined, 47-SquareDotCombined-ASCII, 20-digital7mono
 ├── icons/    # modone iconset (main + viewers)
 ├── themes/   # FleshAndBones.cfg (colours, fonts, list padding)
 └── wps/      # FleshAndBones.wps / FleshAndBones.sbs + bitmaps
@@ -72,7 +72,7 @@ The first six areas are on the now playing screen; the last one is in the footer
 - **Based on:** *OneBit_OLED* by Jihoon Kim · *OneBit_VFD* by chronicallyoffline \<ben@chronicallyoffline.xyz\>
 - **Thanks to:** Jihoon Kim, Chuck Lardo and D0-0K for inspiration and for code/assets reused under CC-BY-SA and GPL v3 respectively
 - **AP80 Pro Max port:** colours, fonts, iconsets and 360×640 layout — v1.0 (2026-04-09)
-- **Fonts:** *LanaPixel* (main font and artist) by eishiya · *SquareDot* and *Digital-7 Mono* by Sizenko Alexander (Style-7) · *SquareDotCombined* (SquareDot plus CJK glyphs) from ottoptj's *CrazyBitMono*. The `.fnt` files and the vacuum-tube orange come from mr-f0xx's *CrazyBit Tube Edition* for the AP80 Pro Max; `35-SquareDotCombined.fnt` is a ¾-size version made from its `47-SquareDotCombined.fnt` (the same dots on a 3 px grid).
+- **Fonts:** *LanaPixel* (main font and artist) by eishiya · *SquareDot* and *Digital-7 Mono* by Sizenko Alexander (Style-7) · *SquareDotCombined* (SquareDot plus CJK glyphs) from ottoptj's *CrazyBitMono*. The `.fnt` files and the vacuum-tube orange come from mr-f0xx's *CrazyBit Tube Edition* for the AP80 Pro Max; `35-SquareDotCombined.fnt` is a ¾-size version made from its `47-SquareDotCombined.fnt` (the same dots on a 3 px grid), and `47-SquareDotCombined-ASCII.fnt` (the USB screen clock) is that font cut down to its printable ASCII characters.
 
 ## License
 

@@ -106,13 +106,14 @@
 # baseline as the old ProFont line; LanaPixel also covers CJK album names)
 #   "Album (year)" - but for a single, i.e. when the album name is exactly
 #   the track title (how Bandcamp and most stores tag single-track
-#   releases), only the year: the title line above already shows the name.
+#   releases), only the year in brackets, "(2020)": the title line above
+#   already shows the name.
 #   %if compares the two tags as text (case-sensitive; a missing tag never
 #   matches). No album tag: "Unknown Album (year)" as before.
 %Vl(metaNoAlbumArt,30,123,300,28,8)%Vf(9C9E9C)
-%aL%s%?id<%?if(%id,=,%it)<%?iy<%ss(0,4, %iy)|>|%id %(%?iy<%ss(0,4, %iy)|?>%)>|Unknown Album %(%?iy<%ss(0,4, %iy)|?>%)>
+%aL%s%?id<%?if(%id,=,%it)<%?iy<%(%ss(0,4, %iy)%)|>|%id %(%?iy<%ss(0,4, %iy)|?>%)>|Unknown Album %(%?iy<%ss(0,4, %iy)|?>%)>
 %Vl(meta,30,123,270,28,8)%Vf(9C9E9C)
-%aL%s%?id<%?if(%id,=,%it)<%?iy<%ss(0,4, %iy)|>|%id %(%?iy<%ss(0,4, %iy)|?>%)>|Unknown Album %(%?iy<%ss(0,4, %iy)|?>%)>
+%aL%s%?id<%?if(%id,=,%it)<%?iy<%(%ss(0,4, %iy)%)|>|%id %(%?iy<%ss(0,4, %iy)|?>%)>|Unknown Album %(%?iy<%ss(0,4, %iy)|?>%)>
 
 #########################
 ##### PLAYBACK MODE #####
