@@ -13,6 +13,16 @@
 #   from the original 320x240 assets (the same factor the other AP80 Pro Max
 #   ports use), so the skin keeps the original's pixel grid and proportions.
 #   Screen margins are 30 px (the original's 20 px x 1.5).
+#
+#   Colours: vacuum-tube orange FF4D00 accents (theme foreground colour) on
+#   pure black.
+#   Track info fonts: title in 35-SquareDotCombined (dot matrix, with CJK),
+#   artist in 21-LanaPixel (LanaPixel x3), file type tag in 20-digital7mono.
+#
+#   Touch: the progress bar is tactile (tap or drag to seek) and the play
+#   indicator is now a centred row of small previous / play-pause / next buttons.
+#   Needs Settings > General Settings > Display > Touchscreen Settings >
+#   Touchscreen Mode = Point (the default on this player).
 # ---------------------------------------------------------------------------
 
 # Disable Status Bar
@@ -30,13 +40,17 @@
 %Fl(3,23-ProFontIIx.fnt)
 %Fl(4,33-ProFontIIx.fnt)
 %Fl(5,44-ProFontIIx.fnt)
-%Fl(8,26-ProFontIIx.fnt)
+# Track info fonts (file type tag / title / album / artist)
+%Fl(6,20-digital7mono.fnt)
+%Fl(7,35-SquareDotCombined.fnt)
+%Fl(8,14-LanaPixel.fnt)
+%Fl(9,21-LanaPixel.fnt)
 
 # Preload Images
 %xl(battery,battery.bmp,0,0,12)
 %xl(lockIco,lock.bmp)
-%xl(blackcover,blackcover.bmp)
 %xl(playmodes,playmodes.bmp,0,0,9)
+%xl(transport,transport.bmp,0,0,6)
 %xl(pbbd,progressbar_backdrop.bmp,0,0)
 %xl(vbbd,volumebar_backdrop.bmp,0,0)
 %xl(peak,peak.bmp,0,0)
@@ -46,7 +60,7 @@
 %xl(X,seeking_icon.bmp)
 
 # Router
-%?mh<%VI(themeBg)%Vd(themeBg)%Vd(lockCover)%Vd(lock)|%Vd(wpsFileType)%Vd(wpsClock)%Vd(wpsPct)%Vd(wpsBatt)%?if(%St(volume display), =, graphic)<%VI(themeBg)%Vd(themeBg)%Vd(meta)%Vd(aaBox)|%Vd(metaNoAlbumArt)>%Vd(playbackMode)%Vd(repeat)%?if(%mp,=,2)<%Vd(peakL)%Vd(peakR)|>%?mv(3)<%Vd(volume)|%Vd(prog)>>
+%?mh<%VI(themeBg)%Vd(themeBg)%Vd(lock)|%Vd(wpsFileType)%Vd(wpsClock)%Vd(wpsPct)%Vd(wpsBatt)%?if(%St(volume display), =, graphic)<%VI(themeBg)%Vd(themeBg)%Vd(meta)%Vd(aaBox)|%Vd(metaNoAlbumArt)>%Vd(playbackMode)%Vd(repeat)%?if(%mp,=,2)<%Vd(peakL)%Vd(peakR)|>%?mv(3)<%Vd(volume)|%Vd(prog)>>
 
 #######################
 ##### Play Screen #####
@@ -60,53 +74,101 @@
 ##### METADATA #####
 ####################
 
-# Track Title
-%Vl(metaNoAlbumArt,30,40,300,34,4)%Vf(ffffff)
-%aL%s%?ia<%?it<%it|%fn>>
-%Vl(meta,30,40,300,34,4)%Vf(ffffff)
-%aL%s%?ia<%?it<%it|%fn>>
+# Track Title - 35-SquareDotCombined: a 3/4-size 47-SquareDotCombined (the
+# same 2x2 dots on a 3 px grid instead of 4; CJK scaled by 3/4). Capitals
+# are 14 px tall (ink y 54-67), centred on the line the 18 px ones used, and
+# 18 px per character instead of 24, so about 16 characters fit before it
+# scrolls. Always the title (or the file name), so a track without an
+# artist tag keeps its title in this font.
+%Vl(metaNoAlbumArt,30,45,300,30,7)%Vf(ffffff)
+%aL%s%?it<%it|%fn>
+%Vl(meta,30,45,300,30,7)%Vf(ffffff)
+%aL%s%?it<%it|%fn>
 
-# Track Artist
-%Vl(metaNoAlbumArt,30,78,300,45,5)
-%?ia<%Vf(9C9E9C)|%Vf(ffffff)>
-%aL%s%?ia<%ia|%?it<%it|%fn>>
-%Vl(meta,30,78,300,45,5)
-%?ia<%Vf(9C9E9C)|%Vf(ffffff)>
-%aL%s%?ia<%ia|%?it<%it|%fn>>
+# Track Artist - 21-LanaPixel (capitals y 90-110). Ends at x 273, leaving room
+# for the file type tag at the right end of this line.
+%Vl(metaNoAlbumArt,30,80,244,42,9)%Vf(9C9E9C)
+%aL%s%ia
+%Vl(meta,30,80,244,42,9)%Vf(9C9E9C)
+%aL%s%ia
 
-# Album Title and ID3 Year
-%Vl(metaNoAlbumArt,30,126,300,23,3)%Vf(9C9E9C)
+# File type tag (MP3, FLAC, ...) - moved out of the header to the right end of
+# the artist line: a solid orange 48x21 tag, exactly as tall as the artist's
+# capitals, with the codec in 20-digital7mono knocked out in black.
+#   The tag is painted with %dr and the text line on top is drawn inverted
+#   (%Vs(invert): orange line, black text). Both viewports have a black
+#   background, so hiding them (lock screen) clears them to black.
+%Vl(wpsFileType,282,90,48,21,-)%Vb(000000)
+%dr(0,0,-,-,FF4D00)
+%Vl(wpsFileType,282,93,48,15,6)%Vf(FF4D00)%Vb(000000)
+%ac%s%fc%Vs(invert)
+
+# Album Title and ID3 Year - 14-LanaPixel (capitals y 130-143, on the same
+# baseline as the old ProFont line; LanaPixel also covers CJK album names)
+%Vl(metaNoAlbumArt,30,123,300,28,8)%Vf(9C9E9C)
 %aL%s%?id<%id|Unknown Album> %(%?iy<%ss(0,4, %iy)|?>%)
-%Vl(meta,30,126,270,23,3)%Vf(9C9E9C)
+%Vl(meta,30,123,270,28,8)%Vf(9C9E9C)
 %aL%s%?id<%id|Unknown Album> %(%?iy<%ss(0,4, %iy)|?>%)
 
 #########################
 ##### PLAYBACK MODE #####
 #########################
 
-# Header - file type in a solid tag (left), clock (centre), battery % + icon (right)
-%Vl(wpsFileType,20,12,48,22,3)%Vb(efcc02)%Vf(000000)
-%ac%s%fc
-
-# Black cover - hides the tag rectangle on the lock screen (the tag's viewport
-# background is repainted there even though the viewport is not drawn)
-%Vl(lockCover,20,12,52,26,-)%Vf(-)
-%xd(blackcover)
-
-%Vl(wpsClock,155,11,50,23,2)%Vf(9C9E9C)
+# Header - clock (left, where the file browser shows it), battery % + icon
+# (right); the file type tag is on the artist line (see METADATA). The clock
+# box is 90 px wide so a 12-hour time ("12:59 PM") fits too.
+%Vl(wpsClock,20,11,90,23,2)%Vf(9C9E9C)
 %al%?cf<%cH|%cl>:%cM%?cf<| %cp>
 
-%Vl(wpsPct,268,11,42,23,2)%Vf(9C9E9C)
+# Battery percentage - ends 6 px before the battery icon's ink
+%Vl(wpsPct,266,11,42,23,2)%Vf(9C9E9C)
 %ar%bl%%
 
 %Vl(wpsBatt,314,16,35,15,-)%Vf(-)
 %?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,3)|%xd(battery,4)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>
 
-# Playback Mode Icons
-%Vl(playbackMode,30,168,20,20,-)%Vf(-)
-%xd(playmodes,%mp)
+# Touch transport: previous | play/pause | next
+#   Three small buttons centred in the row where the play indicator used to be.
+#   transport.bmp holds 24x24 cells with 16x18 glyphs (18x18 for the seek
+#   arrows): 1 previous, 2 next, 3 play, 4 pause, 5 fast-forward, 6 rewind.
+#   The glyphs are an even 16 px wide on a 48 px pitch, so the row is exactly
+#   centred: the middle glyph spans x 172-187, (360 - 16) / 2 = 172, and the
+#   outer ones x 124-139 and 220-235. Glyph rows y 169-186.
+#   The tap targets around the icons are bigger (48x50, x 108-251, y 153-202),
+#   centred on the screen and not overlapping, so they are easy to hit.
+#   Each target is an invisible viewport defined BEFORE its icon, so clearing
+#   it can never erase the icon.
+#     tap  = previous / play-pause / next - routed through the WPS exactly like
+#            the hardware buttons (previous restarts the track after 3 s;
+#            skip length, A-B repeat, cuesheets and Party Mode are respected)
+#     hold = rewind / fast-forward on previous / next
+#   Every viewport here is labelled playbackMode, which the router hides on the
+#   lock (hold) screen, so no target reacts while the player is on hold.
 
-%Vl(playbackMode,55,168,20,20,3)%Vf(9C9E9C)
+# Previous (tap) / Rewind (hold)
+%Vl(playbackMode,108,153,48,50,-)
+%T(0,0,48,50,prev)
+%T(0,0,48,50,rwd,repeat_press)
+%Vl(playbackMode,120,166,24,24,-)%Vf(-)
+%xd(transport,1)
+
+# Play / Pause (tap) - pause while playing, play when paused or stopped,
+# and seek arrows while fast-forwarding / rewinding
+%Vl(playbackMode,156,153,48,50,-)
+%T(0,0,48,50,play)
+%Vl(playbackMode,168,166,24,24,-)%Vf(-)
+%?mp<%xd(transport,3)|%xd(transport,4)|%xd(transport,3)|%xd(transport,5)|%xd(transport,6)|%xd(transport,3)>
+
+# Next (tap) / Fast-forward (hold)
+%Vl(playbackMode,204,153,48,50,-)
+%T(0,0,48,50,next)
+%T(0,0,48,50,ffwd,repeat_press)
+%Vl(playbackMode,216,166,24,24,-)%Vf(-)
+%xd(transport,2)
+
+# Shuffle / Repeat indicators (display only) - moved to the right end of the
+# row, under the disk-activity icon, so they are not mistaken for buttons
+%Vl(playbackMode,310,168,20,20,3)%Vf(9C9E9C)
 %t(5)%?ps<%xd(S)|%?mm<|%xd(R,%mm,-1)>>;%t(5)%?mm<%?ps<%xd(S)>|%xd(R,%mm,-1)>
 
 ######################
@@ -133,9 +195,19 @@
 ##### PROGRESS BAR ####
 #######################
 
-# Progress Bar
+# Seek zone - tap the bar to jump there, or drag along it and lift to seek
+# (the bar and the elapsed time follow your finger while dragging).
+#   Spans exactly the bar's width (x 30-329) so positions map 1:1, but is much
+#   taller than the 26 px bar: from the gap above it down through the time row
+#   (y 557-625, ~7 mm on this panel) so it is easy to hit with a finger.
+#   Invisible, and defined BEFORE the bar so clearing it can never erase it.
+#   Labelled prog: inactive while the volume bar is shown and on the lock screen.
+%Vl(prog,30,557,300,69,-)
+%T(0,0,300,69,progressbar)
+
+# Progress Bar (drawing only - notouch, the seek zone above handles touch)
 %Vl(prog,30,575,300,26,-)%Vf(5d5d5d)
-%pb(0,0,300,26,progressbar.bmp,backdrop,pbbd)
+%pb(0,0,300,26,progressbar.bmp,backdrop,pbbd,notouch)
 
 # Time Elapsed | Track N/M | Total Track Time
 %Vl(prog,30,603,-30,23,3)%Vf(9C9E9C)

@@ -12,7 +12,9 @@
 #   Everything the original SBS themed is themed here: the menu / file browser
 #   / database / settings list viewport, the top status line, the now playing
 #   footer, the USB screen and the while-holding (lock) screen.
-#   Geometry is authored for 360x640; bitmaps and fonts are scaled 3/2.
+#   Geometry is authored for 360x640; bitmaps and the ProFontIIx / Monogram
+#   fonts are scaled 3/2. Main font: LanaPixel. Colours: orange FF4D00 on
+#   pure black.
 # ---------------------------------------------------------------------------
 
 # Disable Status Bar
@@ -21,41 +23,57 @@
 # Clear Backdrop
 %X(d)
 
-# Preload Fonts
+# Preload Fonts  (8 = main font: the menu / browser / settings lists;
+# 9 = the now playing footer's title line)
 %Fl(2,11-monogram.fnt)
 %Fl(3,23-ProFontIIx.fnt)
 %Fl(4,33-ProFontIIx.fnt)
 %Fl(5,44-ProFontIIx.fnt)
-%Fl(6,35-ProFontIIx.fnt)
+%Fl(6,35-SquareDotCombined.fnt)
 %Fl(7,50-ProFontIIx.fnt)
-%Fl(8,26-ProFontIIx.fnt)
+%Fl(8,21-LanaPixel.fnt)
+%Fl(9,14-LanaPixel.fnt)
 
 # Preload Images
 %xl(battery,battery.bmp,0,0,12)
 %xl(playmodes,playmodes.bmp,0,0,9)
 %xl(usbBmp,usb.bmp,0,0)
+%xl(gaugeDots,peak.bmp,0,0)
+%xl(gaugeBg,battery_gauge.bmp,0,0)
 %xl(lockIco,lock.bmp)
 %xl(hdIco,seeking_icon.bmp)
 
 # Clear Screen (info viewport stub for USB)
 %Vi(clearScreen,0,0,1,1,-)
 
-# Main UI viewport (single) - used by every list screen
-%Vi(menu,14,60,332,500,8)%Vf(7f7f7f)%Vb(000000)
+# Main UI viewport (single) - used by every list screen, in the main font
+# (21-LanaPixel, the same file as the theme's font setting).
+# 474 px tall = exactly six 79 px rows (y 66-539; 79 = font 42 + list
+# padding 37, set in the theme .cfg), so Rockbox never draws a cut-off extra
+# row at rest. When the list is scrolled by touch, the rows are clipped at
+# y 66 and y 539: 11 px under the orange header rule (y 52-54) and 12 px
+# above the footer rule (y 552-554), so cut-off text never runs into a rule.
+%Vi(menu,14,66,332,474,8)%Vf(7f7f7f)%Vb(000000)
 
 # Router
-%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbArt)%Vd(usbText1)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(hdrLine)%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
+%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbDate)%Vd(hdrLine)%Vd(battPct)%Vd(battRouter)%Vd(usbClock)%Vd(usbArt)%Vd(usbText1)%Vd(usbBattLbl)%Vd(usbBattPct)%Vd(usbGauge)%Vd(usbStatLbl)%Vd(usbStatVal)%Vd(usbVoltLbl)%Vd(usbVoltVal)%Vd(ftrLine)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(hdrLine)%Vd(ftrLine)%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npTouch)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
 
 ###################
 ##### GENERAL #####
 ###################
 
-# Menu Title (static "Rockbox" - no scrolling folder/option names)
-%Vl(menuTitle,20,6,242,40,6)%Vf(7f7f7f)
+# Menu Title (static "Rockbox" - no scrolling folder/option names), in the
+# now playing screen's track-title font (35-SquareDotCombined, dot-matrix
+# capitals 14 px tall at rows 9-22 of the 30 px line): ink at y 16-29,
+# level with the battery icon (y 16-30) and the percentage on the right.
+# x 18: the glyphs start 2 px in, so the first dot column is at x 20, in
+# line with the orange rules.
+%Vl(menuTitle,18,7,242,30,6)%Vf(7f7f7f)
 %alRockbox
 
-# Yellow header rule - separates the status bar from the list rows
-%Vl(hdrLine,20,52,320,3,-)%Vf(efcc02)%Vb(efcc02)
+# Orange header rule (vacuum-tube orange, the theme's accent colour) -
+# separates the status bar from the list rows
+%Vl(hdrLine,20,52,320,3,-)%Vf(FF4D00)%Vb(FF4D00)
 
 # Hidden %Lt - registers with Rockbox that this skin displays the list title,
 # so the list engine does NOT prepend its own duplicate "Rockbox" title row.
@@ -63,15 +81,16 @@
 %Vl(titleFlag,0,0,1,1,-)%Vf(000000)%Vb(000000)
 %Lt
 
-# Clock - on the now-playing screen, and on the left of the file browser
-# (the browser has no title, so the left side is free; the main menu keeps its title)
+# Clock - on the left of the file browser (it has no title, so the left side
+# is free; the main menu keeps its title)
 %Vl(browserClock,20,11,50,23,2)%Vf(7f7f7f)
 %al%?cf<%cH|%cl>:%cM%?cf<| %cp>
 
-# Storage Access (disk activity)
-%Vl(battPct,268,11,42,23,2)%Vf(7f7f7f)
+# Battery percentage - ends 6 px before the battery icon's ink
+%Vl(battPct,266,11,42,23,2)%Vf(7f7f7f)
 %ar%bl%%
 
+# Storage Access (disk activity)
 %Vl(hdAct,228,15,18,18,-)%Vf(-)
 %xd(hdIco,%lh)
 
@@ -79,14 +98,30 @@
 %Vl(holdIco,252,15,14,18,-)%Vf(-)
 %xd(lockIco,%mh)
 
+# Orange footer rule - the same 3 px vacuum-tube orange line as the header
+# rule, between the list rows (which end at y 539, 12 px above it) and the
+# now playing footer
+%Vl(ftrLine,20,552,320,3,-)%Vf(FF4D00)%Vb(FF4D00)
+
 # Now Playing footer - play mode icon, track (line 1), artist (line 2)
-%Vl(npIcon,20,578,20,20,-)%Vf(-)
+#   Spacing: the text block (ink y 576-618) has the same padding above, under
+#   the orange rule, as below, over the screen edge (21 px each); the icon
+#   (ink y 590-603) is centred on the two lines.
+#   The icon is a touch button: tap it to pause / resume (when stopped it
+#   resumes the last playlist, like the play button on the now playing screen).
+#   The tap target is bigger than the 20x20 icon: 46x50 (x 6-51, y 572-621),
+#   below the list and left of the track text. It is defined BEFORE the icon's
+#   viewport so clearing it can never erase the icon. Touches are ignored
+#   while the keys are locked.
+%Vl(npTouch,6,572,46,50,-)
+%T(0,0,46,50,play)
+%Vl(npIcon,20,587,20,20,-)%Vf(-)
 %xd(playmodes,%mp)
 
-%Vl(npTitle,53,566,287,30,8)%Vf(ffffff)
+%Vl(npTitle,53,571,287,30,9)%Vf(ffffff)
 %al%s%?it<%it|%fn>
 
-%Vl(npArtist,53,598,287,24,3)%Vf(9C9E9C)
+%Vl(npArtist,53,601,287,24,3)%Vf(9C9E9C)
 %al%s%?ia<%ia>
 
 ###################
@@ -111,11 +146,55 @@
 ##### USB SCREEN #####
 ######################
 
-%Vl(usbArt,30,120,300,150,-)
+# Shown while the player is connected to a computer (and charging from it).
+#   Header    today's date (left), battery % + icon (right), orange rule
+#   Clock     the time, big, so it can be read from across the desk
+#   Art       the USB plug and "USB CONNECTED"
+#   Battery   the charge level, big, in orange, over a gauge in the peak
+#             meter's dot grid: orange = charged, grey = empty
+#   Status    Charging / Charged (95 % or more, no longer charging) /
+#             Not charging (connected, below 95 %, but the battery isn't taking
+#             charge, e.g. a weak USB port) / On battery (no power detected)
+#   Voltage   the battery voltage
+#   Footer    under the orange footer rule, the eject reminder
+# Everything refreshes about twice a second while connected.
+
+# Date - where the other screens show the clock (the time is shown big below)
+%Vl(usbDate,20,11,240,23,2)%Vf(7f7f7f)
+%al%ca %cd %cb %cY
+
+# Big clock (same 12/24 h format as the other clocks)
+%Vl(usbClock,30,76,300,50,7)%Vf(ffffff)
+%ac%?cf<%cH|%cl>:%cM%?cf<| %cp>
+
+%Vl(usbArt,30,132,300,150,-)
 %xd(usbBmp)
 
-%Vl(usbText1,30,300,300,40,4)%Vf(ffffff)
+%Vl(usbText1,30,285,300,33,4)%Vf(ffffff)
 %acUSB CONNECTED
 
-%Vl(usbText2,30,348,300,23,2)%Vf(ffffff)
-%acEject Before Disconnecting
+# Battery level: label and number share a baseline (y 382)
+%Vl(usbBattLbl,30,351,130,42,8)%Vf(7f7f7f)
+%alBattery
+
+%Vl(usbBattPct,160,341,170,50,7)%Vf(FF4D00)
+%ar%bl%%
+
+# Gauge: the orange dots (peak.bmp) fill up to the level, over the grey dots
+# (battery_gauge.bmp, 5d5e5d = the progress bar's grey once converted)
+%Vl(usbGauge,30,403,300,15,-)%Vf(FF4D00)
+%bl(0,0,300,15,image,gaugeDots,backdrop,gaugeBg)
+
+%Vl(usbStatLbl,30,431,110,42,8)%Vf(7f7f7f)
+%alStatus
+%Vl(usbStatVal,140,431,190,42,8)%Vf(FF4D00)
+%ar%?bc<Charging|%?bp<%?if(%bl, >=, 95)<Charged|Not charging>|On battery>>
+
+%Vl(usbVoltLbl,30,475,110,42,8)%Vf(7f7f7f)
+%alVoltage
+%Vl(usbVoltVal,140,475,190,42,8)%Vf(ffffff)
+%ar%bv V
+
+# Footer (under the orange footer rule shared with the menus)
+%Vl(usbText2,30,582,300,28,9)%Vf(9C9E9C)
+%acEject before disconnecting
