@@ -1,6 +1,6 @@
-# FleshAndBones — AP80 Pro Max
+# FleshAndBones Remix — AP80 Pro Max
 
-**FleshAndBones** is a high-contrast Rockbox theme with vacuum-tube orange accents on black, built for the **Hidizs AP80 Pro Max** (360×640 portrait touchscreen). It is a faithful port of nicnic's *FleshAndBones* — itself based on Jihoon Kim's *OneBit_OLED* and chronicallyoffline's *OneBit_VFD* — re-laid-out natively for the device's tall 249 dpi panel, with every bitmap and the original fonts scaled ×1.5 from the original 320×240 assets so the classic pixel grid and proportions are preserved.
+**FleshAndBones Remix ** is a high-contrast Rockbox theme with vacuum-tube orange accents on black, built for the **Hidizs AP80 Pro Max** (360×640 portrait touchscreen). It is a faithful port of nicnic's *FleshAndBones* — itself based on Jihoon Kim's *OneBit_OLED* and chronicallyoffline's *OneBit_VFD* — re-laid-out natively for the device's tall 249 dpi panel, with every bitmap and the original fonts scaled ×1.5 from the original 320×240 assets so the classic pixel grid and proportions are preserved.
 
 ## Previews
 
