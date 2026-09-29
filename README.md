@@ -16,11 +16,11 @@
 - **Vacuum-tube orange accents** (`#FF4D00`) on pure black — battery icon, playback buttons, peak meter, codec tag, the selected item in every list and the menu's header and footer rules.
 - **Dot-matrix track info** — the title in *SquareDotCombined* (also covers Japanese, Chinese and Korean), the artist and album in *LanaPixel*, and a solid orange codec tag (`MP3`, `FLAC`, …) in *Digital-7 Mono* at the end of the artist line
 - **Tactile progress bar** — tap it to jump, or drag along it and lift to seek, with a finger-sized touch zone around the bar
-- **Touch transport** — small previous · play/pause · next buttons (16×18 px glyphs, 48 px apart) centred under the track info
+- **Touch transport** — small shuffle · previous · play/pause · next · repeat buttons (16–18 px glyphs, 48 px apart) centred under the track info; shuffle and repeat are grey when off and turn orange when on
 - **Custom header** — clock on the left, battery percentage + 11-frame battery icon on the right, all drawn by the skin (status bar disabled)
 - **Lock screen** — big clock, now-playing info, time remaining, plus charging / low-battery states
-- **USB screen** — while connected to a computer: a big clock, the date, the battery level (big percentage + a dot-matrix gauge in the peak meter's style), charging status (Charging / Charged / Not charging) and battery voltage, with the eject reminder in the footer
-- **Playback indicators** — shuffle, repeat and seek icons in the play screen
+- **USB screen** — while connected to a computer: the time in the menu header's dot-matrix font (SquareDotCombined), the date, the battery level (big percentage + a dot-matrix gauge in the peak meter's style), charging status (Charging / Charged / Not charging) and battery voltage, with the eject reminder in the footer
+- **Playback indicators** — the shuffle / repeat buttons show the current mode (repeat one and repeat shuffle have their own icons), and the play button turns into ◀◀ / ▶▶ while seeking
 - **1-bit monochrome iconset** for the file browser and viewers (`modone.bmp` / `modone_viewer.bmp`)
 - **LanaPixel main font** for the menus, file browser, settings and the now-playing footer (covers Japanese, Chinese and Korean), with the original ProFontIIx + Monogram fonts for the clock, battery percentage and labels, plus the three track-info fonts on the now-playing screen. The "Rockbox" title in the menu header uses the track title's dot-matrix font (SquareDotCombined)
 - **Touch-friendly lists** — row pitch tuned to the panel (LanaPixel 42 px + list padding 37 = 79 px), exactly six rows between the header and the now playing footer, with a margin above and below them so rows scrolled by touch stop short of the orange rules
@@ -46,20 +46,23 @@
 
 ## Touch controls
 
-The first four areas are on the now playing screen; the last one is in the footer of the menus and file browser.
+The first six areas are on the now playing screen; the last one is in the footer of the menus and file browser.
 
 | Area | Tap | Hold / drag |
 |---|---|---|
+| 🔀 Shuffle | Shuffle on / off (orange while on) | — |
 | ⏮ Previous | Previous track (restarts the current one after 3 s) | Rewind |
 | ⏸ / ▶ Play/Pause | Pause / resume (resumes the last playlist when stopped) | — |
 | ⏭ Next | Next track | Fast-forward |
+| 🔁 Repeat | Next repeat mode: off → all → one → shuffle (orange while on) | — |
 | Progress bar | Jump to that position | Drag to preview, lift to seek |
 | ▶ / ⏸ icon in the now playing footer (menus) | Pause / resume (resumes the last playlist when stopped) | — |
 
 - The icons stay small, but each button has a larger invisible 48×50 px tap target (46×50 for the footer icon in the menus). The seek zone spans exactly the bar's width, so where you touch maps 1:1 to the track position. It reaches from the gap above the bar down through the time row (~7 mm tall), so you don't have to hit the 26 px bar itself.
 - The centre icon shows ⏸ while playing and ▶ when paused or stopped. While seeking it shows the theme's ◀◀ / ▶▶ arrows.
-- Previous/next go through the same path as the hardware buttons, so skip length, A-B repeat, cuesheets and Party Mode are respected.
-- Touch targets are disabled on the lock screen and while the volume bar is shown; the footer icon ignores taps while the keys are locked. Shuffle/repeat moved to the right end of the button row and are display only.
+- Previous/next go through the same path as the hardware buttons, so skip length, cuesheets and Party Mode are respected.
+- Touch targets are disabled on the lock screen and while the volume bar is shown; the footer icon ignores taps while the keys are locked.
+- Shuffle and repeat change the same settings as **Settings → Playback Settings**. A-B repeat is not part of the cycle because the AP80 build of Rockbox has no A-B repeat.
 - Requires **Settings → General Settings → Display → Touchscreen Settings → Touchscreen Mode: Point**, which is the default on this player. The theme does not change this setting.
 - Checked with `checkwps` for the `hidizsap80max` target and tested with touch input in the AP80 Pro Max simulator (Rockbox `8f38274e`). It still needs testing on a physical device.
 
