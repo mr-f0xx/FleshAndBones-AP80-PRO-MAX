@@ -55,8 +55,7 @@
 %xl(vbbd,volumebar_backdrop.bmp,0,0)
 %xl(peak,peak.bmp,0,0)
 %xl(pbd,peak_backdrop.bmp,0,0)
-%xl(R,repeat_status.bmp,3)
-%xl(S,shuffle_status.bmp)
+%xl(modes,modes.bmp,0,0,7)
 %xl(X,seeking_icon.bmp)
 
 # Router
@@ -127,23 +126,36 @@
 %Vl(wpsBatt,314,16,35,15,-)%Vf(-)
 %?bl<%xd(battery,1)|%xd(battery,2)|%xd(battery,3)|%xd(battery,4)|%xd(battery,5)|%xd(battery,6)|%xd(battery,7)|%xd(battery,8)|%xd(battery,9)|%xd(battery,10)|%xd(battery,11)>
 
-# Touch transport: previous | play/pause | next
-#   Three small buttons centred in the row where the play indicator used to be.
+# Touch transport: shuffle | previous | play/pause | next | repeat
+#   Five small buttons centred in the row where the play indicator used to be.
 #   transport.bmp holds 24x24 cells with 16x18 glyphs (18x18 for the seek
 #   arrows): 1 previous, 2 next, 3 play, 4 pause, 5 fast-forward, 6 rewind.
-#   The glyphs are an even 16 px wide on a 48 px pitch, so the row is exactly
-#   centred: the middle glyph spans x 172-187, (360 - 16) / 2 = 172, and the
-#   outer ones x 124-139 and 220-235. Glyph rows y 169-186.
-#   The tap targets around the icons are bigger (48x50, x 108-251, y 153-202),
+#   modes.bmp holds the theme's shuffle / repeat glyphs (16-18 px) in the same
+#   24x24 cells, pre-coloured: 1 shuffle off (grey), 2 shuffle on (orange),
+#   3 repeat off (grey), 4 repeat all, 5 repeat one, 6 repeat shuffle,
+#   7 repeat A-B (orange) - grey = off, orange = on, like the rest of the theme.
+#   The glyphs sit on a 48 px pitch, so the row is exactly centred: the middle
+#   glyph spans x 172-187, (360 - 16) / 2 = 172, previous / next x 124-139 and
+#   220-235, shuffle / repeat x 75-91 and 268-283. Glyph rows y 169-186.
+#   The tap targets around the icons are bigger (48x50, x 60-299, y 153-202),
 #   centred on the screen and not overlapping, so they are easy to hit.
 #   Each target is an invisible viewport defined BEFORE its icon, so clearing
 #   it can never erase the icon.
 #     tap  = previous / play-pause / next - routed through the WPS exactly like
 #            the hardware buttons (previous restarts the track after 3 s;
-#            skip length, A-B repeat, cuesheets and Party Mode are respected)
+#            skip length, cuesheets and Party Mode are respected)
 #     hold = rewind / fast-forward on previous / next
+#     tap  = shuffle on / off; repeat cycles off, all, one, shuffle (A-B
+#            too on builds with A-B repeat; the AP80 build has none) - the
+#            same settings as Settings > Playback Settings
 #   Every viewport here is labelled playbackMode, which the router hides on the
 #   lock (hold) screen, so no target reacts while the player is on hold.
+
+# Shuffle (tap) - on / off; the icon is orange while shuffle is on
+%Vl(playbackMode,60,153,48,50,-)
+%T(0,0,48,50,shuffle)
+%Vl(playbackMode,72,166,24,24,-)%Vf(-)
+%?ps<%xd(modes,2)|%xd(modes,1)>
 
 # Previous (tap) / Rewind (hold)
 %Vl(playbackMode,108,153,48,50,-)
@@ -166,10 +178,13 @@
 %Vl(playbackMode,216,166,24,24,-)%Vf(-)
 %xd(transport,2)
 
-# Shuffle / Repeat indicators (display only) - moved to the right end of the
-# row, under the disk-activity icon, so they are not mistaken for buttons
-%Vl(playbackMode,310,168,20,20,3)%Vf(9C9E9C)
-%t(5)%?ps<%xd(S)|%?mm<|%xd(R,%mm,-1)>>;%t(5)%?mm<%?ps<%xd(S)>|%xd(R,%mm,-1)>
+# Repeat (tap) - cycles off, all, one, shuffle (and A-B where the build has
+# it); grey while off, orange while on (repeat one, repeat shuffle and A-B
+# each have their own glyph)
+%Vl(playbackMode,252,153,48,50,-)
+%T(0,0,48,50,repmode)
+%Vl(playbackMode,264,166,24,24,-)%Vf(-)
+%?mm<%xd(modes,3)|%xd(modes,4)|%xd(modes,5)|%xd(modes,6)|%xd(modes,7)>
 
 ######################
 ##### PEAK METER #####

@@ -56,7 +56,7 @@
 %Vi(menu,14,66,332,474,8)%Vf(7f7f7f)%Vb(000000)
 
 # Router
-%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbDate)%Vd(hdrLine)%Vd(battPct)%Vd(battRouter)%Vd(usbClock)%Vd(usbArt)%Vd(usbText1)%Vd(usbBattLbl)%Vd(usbBattPct)%Vd(usbGauge)%Vd(usbStatLbl)%Vd(usbStatVal)%Vd(usbVoltLbl)%Vd(usbVoltVal)%Vd(ftrLine)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(hdrLine)%Vd(ftrLine)%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npTouch)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
+%?if(%cs, =, 21)<%VI(clearScreen)%Vd(themeBg)%Vd(usbDate)%Vd(hdrLine)%Vd(battPct)%Vd(battRouter)%Vd(usbClock)%Vd(usbArt)%Vd(usbBattLbl)%Vd(usbBattPct)%Vd(usbGauge)%Vd(usbStatLbl)%Vd(usbStatVal)%Vd(usbVoltLbl)%Vd(usbVoltVal)%Vd(ftrLine)%Vd(usbText2)|%VI(themeBg)%Vd(themeBg)%VI(menu)%?if(%cs, =, 7)<%Vd(browserClock)|%Vd(menuTitle)>%Vd(hdrLine)%Vd(ftrLine)%Vd(battPct)%Vd(hdAct)%Vd(holdIco)%Vd(npTouch)%Vd(npIcon)%Vd(npTitle)%Vd(npArtist)%Vd(battRouter)>
 
 ###################
 ##### GENERAL #####
@@ -148,8 +148,8 @@
 
 # Shown while the player is connected to a computer (and charging from it).
 #   Header    today's date (left), battery % + icon (right), orange rule
-#   Clock     the time, big, so it can be read from across the desk
-#   Art       the USB plug and "USB CONNECTED"
+#   Clock     the time, in the menu header's dot-matrix font (SquareDotCombined)
+#   Art       the USB plug
 #   Battery   the charge level, big, in orange, over a gauge in the peak
 #             meter's dot grid: orange = charged, grey = empty
 #   Status    Charging / Charged (95 % or more, no longer charging) /
@@ -159,19 +159,19 @@
 #   Footer    under the orange footer rule, the eject reminder
 # Everything refreshes about twice a second while connected.
 
-# Date - where the other screens show the clock (the time is shown big below)
+# Date - where the other screens show the clock (the time is shown below it)
 %Vl(usbDate,20,11,240,23,2)%Vf(7f7f7f)
 %al%ca %cd %cb %cY
 
-# Big clock (same 12/24 h format as the other clocks)
-%Vl(usbClock,30,76,300,50,7)%Vf(ffffff)
+# Clock (same 12/24 h format as the other clocks) in font 6, the dot-matrix
+# SquareDotCombined of the menu header's "Rockbox" title. Its digits are
+# 14 px tall (rows 9-22 of the 30 px line): ink y 105-118. The clock, the
+# plug (ink y 169-298) and the battery row (ink from y 350) sit ~50 px apart.
+%Vl(usbClock,30,96,300,30,6)%Vf(ffffff)
 %ac%?cf<%cH|%cl>:%cM%?cf<| %cp>
 
-%Vl(usbArt,30,132,300,150,-)
+%Vl(usbArt,30,156,300,150,-)
 %xd(usbBmp)
-
-%Vl(usbText1,30,285,300,33,4)%Vf(ffffff)
-%acUSB CONNECTED
 
 # Battery level: label and number share a baseline (y 382)
 %Vl(usbBattLbl,30,351,130,42,8)%Vf(7f7f7f)
