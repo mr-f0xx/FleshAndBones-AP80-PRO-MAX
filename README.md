@@ -14,7 +14,7 @@
 
 - **Full WPS layout** — track title / artist / album, 300×300 album-art box, dithered progress bar, peak meter, and graphic volume bar
 - **Vacuum-tube orange accents** (`#FF4D00`) on pure black — battery icon, playback buttons, peak meter, codec tag, the selected item in every list and the menu's header and footer rules.
-- **Dot-matrix track info** — the title in *SquareDotCombined* (also covers Japanese, Chinese and Korean), the artist and album in *LanaPixel*, and a solid orange codec tag (`MP3`, `FLAC`, …) in *Digital-7 Mono* at the end of the artist line
+- **Dot-matrix track info** — the title in *SquareDotCombined* (also covers Japanese, Chinese and Korean), the artist and the album + year in *LanaPixel* (only the year for a single, when the album name is the same as the title), and a solid orange codec tag (`MP3`, `FLAC`, …) in *Digital-7 Mono* at the end of the artist line
 - **Tactile progress bar** — tap it to jump, or drag along it and lift to seek, with a finger-sized touch zone around the bar
 - **Touch transport** — small shuffle · previous · play/pause · next · repeat buttons (16–18 px glyphs, 48 px apart) centred under the track info; shuffle and repeat are grey when off and turn orange when on
 - **Custom header** — clock on the left, battery percentage + 11-frame battery icon on the right, all drawn by the skin (status bar disabled)
